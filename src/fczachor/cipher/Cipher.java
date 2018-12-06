@@ -1,12 +1,15 @@
 package fczachor.cipher;
+
 /**
- * This class implements the 2 Strings encrypt and decrypt.
- * @author FCzachor
- * @version 11.10.2018
+ * CIPHER
+ * @author Florian Czachor
+ * @version 27.11.2018
  */
+
 public interface Cipher {
 	
-	// Methoden
+	// Attributes
 	public String encrypt(String text);
 	public String decrypt(String text);
+	
 }

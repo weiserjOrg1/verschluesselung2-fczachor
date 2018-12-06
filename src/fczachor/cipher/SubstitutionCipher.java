@@ -1,15 +1,24 @@
 package fczachor.cipher;
+
 /**
- * This class is the child class of MonoAlphabeticCipher and it sets the secret Alphabet.
- * @author FCzachor
- * @version 11.10.2018
+ * SUBSTITUTION CIPHER
+ * This class extends MonoAlphabeticCipher.
+ * @author Florian Czachor
+ * @version 27.11.2018
  */
+
 public class SubstitutionCipher extends MonoAlphabeticCipher{
-	public SubstitutionCipher(String secretAlphabet) throws Egseptions {
+	
+	// Constructor
+	public SubstitutionCipher(String secretAlphabet) {
 		super.setSecretAlphabet(secretAlphabet);
 	}
 	
-	public void setSecretAlphabet(String secretAlphabet) throws Egseptions {
-		super.setSecretAlphabet(secretAlphabet);
+	// Methods
+	
+	// SET SECRET ALPHABET
+	// This method returns secretAlpahbet
+	public boolean setSecretAlphabet(String secretAlphabet){
+		return super.setSecretAlphabet(secretAlphabet);
 	}
 }

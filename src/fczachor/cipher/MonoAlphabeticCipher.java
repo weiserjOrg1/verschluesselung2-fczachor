@@ -1,116 +1,106 @@
 package fczachor.cipher;
+
 /**
- * This is the parent class of SubstitutionCipher and it encrypts and decrypts a text.
- * It also implements Chipher!
- * @author FCzachor
- * @version 11.10.2018
+ * MONO ALPHABETIC CIPHER
+ * This class implements Cipher.
+ * @author Florian Czachor
+ * @version 27.11.2018
  */
-public class MonoAlphabeticCipher implements Cipher{
-	
+
+public class MonoAlphabeticCipher implements Cipher {
+
+	// Attributes
 	private String secretAlphabet;
 	
+	// Constructor
 	public MonoAlphabeticCipher() {
-			this.secretAlphabet = "abcdefghijklmnopqrstuvwxyzäöüß";
-		
+		this.secretAlphabet = "abcdefghijklmnopqrstuvwxyzäöüß";
 	}
+	
+	// Methods
+	
+	// GET SECRET ALPABET
+	// This getter returns secretAlphabet.
 	public String getSecretAlphabet() {
-		return this.secretAlphabet;
+		return this.secretAlphabet;							
 	}
 	
-	protected void setSecretAlphabet(String sAlphabet) throws Egseptions {
-			this.secretAlphabet = testSecret(sAlphabet); 
-		
+	// SET SECRET ALPHABET
+	// This setter returns secretAlphabet.
+	protected boolean setSecretAlphabet(String secretAlphabet) {
+		String help = exceptMaster(secretAlphabet);
+		if (help == null) {
+			return false;
+		}
+		this.secretAlphabet = exceptMaster(secretAlphabet);
+		return true;													
 	}
-	@Override
-	public String encrypt(String text) {
-		String encryptText ="";
-		text = text.toLowerCase();
-		
-		String normalA ="abcdefghijklmnopqrstuvwxyzäöüß";
-		
-		for(int i=0; i<text.length(); i++) {
-            int in = normalA.indexOf(text.charAt(i));
-            
-            if(in != -1) {
-                char c = this.secretAlphabet.charAt(in); 
-                encryptText = encryptText + c;
-                
-            }else {
-                encryptText = encryptText + text.charAt(i);
-            }
-        }
-		return encryptText;
-		
-		
-	}
-	@Override
-	public String decrypt(String text) {
-		String decryptText ="";
-		text = text.toLowerCase();
-		
-		String normalA ="abcdefghijklmnopqrstuvwxyzäöüß";
-		
-		for(int i=0; i<text.length(); i++) {
-			int in = this.secretAlphabet.indexOf(text.charAt(i));
-			
-			if(in != -1) {
-				char c = normalA.charAt(in);
-				decryptText = decryptText + c;
-				
-			}else {
-				decryptText = decryptText + text.charAt(i);
-			}
-		}
-		
-		return decryptText;
-	}
-	
-	public String testSecret(String sAlphabet) throws Egseptions{
-		sAlphabet = sAlphabet.toLowerCase();
-		//30
-		if(sAlphabet.length() > 30) {
-			throw new Egseptions("its too long");
-		}else {
-			
-		}
-		
-		if(sAlphabet.length() < 30) {
-			throw new Egseptions("its too short");
-		}else {
-			
-		}
-		//just 1 time
-		for(int i=0; i<sAlphabet.length(); i++) {
-			int help = 0;
-			for(int j=0; j<sAlphabet.length(); j++) {
-				if(sAlphabet.charAt(i) == sAlphabet.charAt(j)) {
-					help++;
-					if(help > 1) {
-						throw new Egseptions("there are two same Letters");
-					}
-				}
-			}
-		}
-		
-		//correct Symbols
-		String correct="abcdefghijklmnopqrstuvwxyzäöüß";
-        int help2 = 0;
-        for(int i=0; i<sAlphabet.length(); i++) {
-            for(int j=0; j<sAlphabet.length(); j++) {
-                char a = correct.charAt(i);
-                char b = sAlphabet.charAt(j);
-                if(a == b) {
-                    help2++;
-                }
-            }
-        }
-        if(help2 == 30) {
 
-        }else {
-            throw new Egseptions("it contains wrong symbols"); 
+	// EXCEPT MASTER
+	// This method checks if the criteria are fulfilled.
+	public String exceptMaster(String secretAlphabet) {
+		secretAlphabet = secretAlphabet.toLowerCase();
+		
+		// 30
+		if (secretAlphabet.length() !=30) {
+			 return null;
+		}
+		
+		// 1x character
+		for (int i = 0; i < secretAlphabet.length(); i++) {
+			char c = secretAlphabet.charAt(i);
+			if (secretAlphabet.indexOf(c) == secretAlphabet.lastIndexOf(c)) {
+				
+			} else {
+				return null;
+			}
+		}
+		
+		// invalid characters
+		for (int i = 0; i < secretAlphabet.length(); i++) {
+            char c = secretAlphabet.charAt(i);
+            if (c >= 97 && c <= 122 || c == 246 || c == 228 || c == 252 || c == 223) {
+            } else {
+            	return null;
+            }
         }
+		return secretAlphabet;
+	}
+
+	// ENCRYPT
+	// This method encrypts the message.
+	public String encrypt(String text) {
+		String encryptedText = "";
+		String defAlphabet = "abcdefghijklmnopqrstuvwxyzäöüß";
+		text = text.toLowerCase();
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			int place = defAlphabet.indexOf(c);
+			if (place == -1) {
+				encryptedText = encryptedText + c;
+			} else {
+				encryptedText = encryptedText + this.secretAlphabet.charAt(place);
+			}
+		}
+		return encryptedText;
+	}
+	
+	// DECRYPT
+	// This method decrypts the message.
+	public String decrypt(String text) {
+		String decryptedText = "";
+		String defaultAlph = "abcdefghijklmnopqrstuvwxyzäöüß";
+		text = text.toLowerCase();
 		
-		
-		return sAlphabet;
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			int place = this.secretAlphabet.indexOf(c);
+			if (place == -1) {
+				decryptedText = decryptedText + c;
+			} else {
+				decryptedText = decryptedText + defaultAlph.charAt(place);
+			}
+		}
+		return decryptedText;
 	}
 }
